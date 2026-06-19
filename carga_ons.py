@@ -236,7 +236,7 @@ def salvar_consolidado(todos: list[dict]) -> str:
     # Abas mensais separadas
     from itertools import groupby
     for (ano, mes), grupo in groupby(todos, key=lambda r: (r["Data"].year, r["Data"].month)):
-        nome_mes = datetime.date(ano, mes, 1).strftime("%b/%Y")
+        nome_mes = datetime.date(ano, mes, 1).strftime("%b-%Y")
         _criar_aba(wb, list(grupo), nome_mes)
 
     wb.save(nome_arquivo)
