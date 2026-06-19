@@ -5,6 +5,9 @@ on:
     - cron: "0 8 1 * *"   # todo dia 1º do mês às 8h (UTC)
   workflow_dispatch:        # permite rodar manualmente pelo botão no GitHub
 
+permissions:
+  contents: write
+
 jobs:
   baixar-e-salvar:
     runs-on: ubuntu-latest
