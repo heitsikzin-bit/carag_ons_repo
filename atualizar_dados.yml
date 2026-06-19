@@ -1,0 +1,33 @@
+name: Atualizar Carga ONS
+
+on:
+  schedule:
+    - cron: "0 8 1 * *"   # todo dia 1º do mês às 8h (UTC)
+  workflow_dispatch:        # permite rodar manualmente pelo botão no GitHub
+
+jobs:
+  baixar-e-salvar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Rodar o script
+        run: python carga_ons.py
+
+      - name: Commit e push dos Excel gerados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add *.xlsx
+          git diff --cached --quiet || git commit -m "dados: atualização automática $(date +'%Y-%m')"
+          git push
